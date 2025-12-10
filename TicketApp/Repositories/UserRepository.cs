@@ -26,7 +26,7 @@ namespace TicketApp.Repositories
 
         public async Task DeleteUser(int userId)
         {
-                       var existing = await _context.Users.FindAsync(userId);
+            var existing = await _context.Users.FindAsync(userId);
             if (existing != null)
             {
                 _context.Users.Remove(existing);
@@ -36,17 +36,17 @@ namespace TicketApp.Repositories
 
 
         public async Task<bool> Exists(int userId) => await _context.Users.AnyAsync(u => u.UserId == userId);
-       
+
 
         public Task<List<User>> GetAllUsers()
         {
-            var list =  _context.Users.ToListAsync();
+            var list = _context.Users.ToListAsync();
             return list;
         }
 
         public Task<User?> GetUserByEmail(string email)
         {
-            var user = _context.Users.FirstOrDefaultAsync(u =>u.Email == email);
+            var user = _context.Users.FirstOrDefaultAsync(u => u.Email == email);
             return user;
         }
 
@@ -59,7 +59,7 @@ namespace TicketApp.Repositories
             return list;
         }
 
-       public async Task<User> UpdateUser(User user)
+        public async Task<User> UpdateUser(User user)
         {
             var existing = await _context.Users.FindAsync(user.UserId);
             if (existing == null)

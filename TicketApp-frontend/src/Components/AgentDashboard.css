@@ -1,0 +1,166 @@
+/* AgentDashboard.css - Full Width Modern Design */
+
+/* Root Variables (matching AdminDashboard for consistency) */
+:root {
+  --primary-color: #3b82f6;
+  --primary-hover: #2563eb;
+  --secondary-color: #64748b;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --dark-color: #1f2937;
+  --light-color: #f8fafc;
+  --border-color: #e2e8f0;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --border-radius: 12px;
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base Reset and Typography */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.agent-dashboard-container {
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Full width background pattern */
+.agent-dashboard-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.agent-dashboard-wrapper {
+  width: 100%;
+  padding: 2rem 2rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Full Width Welcome Header */
+.agent-dashboard-wrapper h2 {
+  font-size: 3rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary-color), #60a5fa, var(--success-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 2rem;
+  line-height: 1.2;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.agent-dashboard-wrapper h2::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 1rem;
+  width: 80px;
+  height: 5px;
+  background: linear-gradient(90deg, var(--primary-color), var(--success-color));
+  border-radius: 3px;
+}
+
+/* Personal Greeting Animation */
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.agent-dashboard-wrapper h2 {
+  animation: slideInDown 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Responsive Design - Full width at all sizes */
+@media (max-width: 1200px) {
+  .agent-dashboard-wrapper {
+    padding: 1.5rem 1.5rem 0;
+  }
+  
+  .agent-dashboard-wrapper h2 {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .agent-dashboard-wrapper {
+    padding: 1rem 1rem 0;
+  }
+  
+  .agent-dashboard-wrapper h2 {
+    font-size: 2.25rem;
+    padding-left: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .agent-dashboard-container {
+    padding: 0;
+  }
+  
+  .agent-dashboard-wrapper {
+    padding: 1rem 0.75rem 0;
+  }
+  
+  .agent-dashboard-wrapper h2 {
+    font-size: 2rem;
+    padding-left: 0.5rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .agent-dashboard-container {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  }
+  
+  .agent-dashboard-wrapper h2 {
+    background: linear-gradient(135deg, #60a5fa, #93c5fd, #34d399);
+  }
+}
+
+/* Print styles */
+@media print {
+  .agent-dashboard-container {
+    background: white;
+    width: 100%;
+  }
+  
+  .agent-dashboard-wrapper {
+    padding: 1rem;
+  }
+  
+  .agent-dashboard-wrapper h2 {
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: var(--dark-color);
+    background: none;
+    color: var(--dark-color);
+    font-size: 1.5rem;
+  }
+}

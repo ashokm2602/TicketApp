@@ -10,10 +10,10 @@ namespace TicketApp.Models
         public int TicketId { get; set; }
         [Required]
         public int UserId { get; set; }
-        [Required,StringLength(500)]
+        [Required, StringLength(500)]
         public string Message { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
-        
+
     }
 }

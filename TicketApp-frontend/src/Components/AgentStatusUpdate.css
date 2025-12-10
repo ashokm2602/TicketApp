@@ -1,0 +1,39 @@
+.status-update-box {
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 10px;
+  background: #f7f7f9;
+  border: 1px solid #ddd;
+  font-family: "Inter", sans-serif;
+}
+
+.status-update-box h4 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: #222;
+}
+
+.status-update-box select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #bbb;
+  font-size: 14px;
+  width: 100%;
+  margin-bottom: 10px;
+  color: #222;
+  background: white;
+}
+
+.status-update-box button {
+  padding: 10px 16px;
+  background: #007bff;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.status-update-box button:hover {
+  background: #005ec4;
+}

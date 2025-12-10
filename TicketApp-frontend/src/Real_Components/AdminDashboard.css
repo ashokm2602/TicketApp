@@ -1,0 +1,104 @@
+/* FULLSCREEN WRAPPER */
+/* FULL SCREEN LAYOUT */
+.admin-dashboard-container {
+  display: flex;
+  width: 100vw;        /* FULL SCREEN WIDTH */
+  min-height: 100vh;   /* FULL SCREEN HEIGHT */
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* MAIN DASHBOARD CONTENT */
+.admin-dashboard-content {
+  flex: 1;              /* TAKE ALL REMAINING SPACE */
+  width: 100%;
+  padding: 30px;
+  background: #f5f6fa;
+}
+
+
+
+
+.admin-dashboard-container {
+  display: flex;
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: #f5f6fa;
+}
+
+/* MAIN CONTENT NEXT TO SIDEBAR */
+.admin-dashboard-content {
+  flex: 1;
+  padding: 30px;
+  background: #f5f6fa;
+  overflow-y: auto;
+}
+
+
+
+/* TITLE */
+.admin-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* SECTION BLOCK */
+.section-block {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* GRID FOR CARDS */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* AGENT CARD */
+.agent-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* UNASSIGNED TICKET CARD */
+.unassigned-ticket-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* RESOLVED CARD */
+.resolved-ticket-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* CLOSE BUTTON */
+.close-ticket-btn {
+  margin-top: 10px;
+  background: #d9534f;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.close-ticket-btn:hover {
+  background: #c9302c;
+}

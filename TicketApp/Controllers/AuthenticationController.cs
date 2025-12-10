@@ -2,10 +2,8 @@
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using BCrypt.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using TicketApp.Authentication;
 using TicketApp.Models;     // your User model
@@ -58,6 +56,9 @@ namespace TicketApp.Controllers
         {
             var user = _context.Users.FirstOrDefault(u => u.Name == model.Username);
 
+
+
+
             if (user == null)
                 return Unauthorized("User not found");
 
@@ -80,7 +81,7 @@ namespace TicketApp.Controllers
                 Role = user.Role.ToString()
             });
 
-            
+
 
         }
 

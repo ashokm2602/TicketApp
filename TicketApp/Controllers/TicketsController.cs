@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TicketApp.Repositories;
 using TicketApp.Models;
-using TicketApp.DTOs;
+using TicketApp.Repositories;
 using static TicketApp.DTOs.TicketDTO;
-using Microsoft.AspNetCore.Authorization;
 
 namespace TicketApp.Controllers
 {
@@ -12,102 +10,163 @@ namespace TicketApp.Controllers
     [ApiController]
     public class TicketsController : ControllerBase
     {
-        private readonly ITicketRepository _ticket;
-        public TicketsController(ITicketRepository ticket)
+        private readonly ITicketRepository _ticketRepo;
+
+        public TicketsController(ITicketRepository ticketRepo)
         {
-            _ticket = ticket;
+            _ticketRepo = ticketRepo;
         }
 
+        // ---------------------------
+        //   MAP ENTITY → DTO
+        // ---------------------------
         private static TicketResponse ToTicketResponse(Ticket t)
         {
-            TicketResponse res = new TicketResponse { AssignedTo = t.AssignedTo, CreatedBy = t.CreatedBy, Description = t.Description, Priority = t.Priority, Status = t.Status, TicketId = t.TicketId, Title = t.Title };
-            return res;
+            return new TicketResponse
+            {
+                TicketId = t.TicketId,
+                Title = t.Title,
+                Description = t.Description,
+                Priority = t.Priority.ToString(),
+                Status = t.Status.ToString(),
+                CreatedBy = t.CreatedBy,
+                AssignedTo = t.AssignedTo
+            };
         }
 
+        // ---------------------------
+        //   GET ALL
+        // ---------------------------
         [HttpGet]
-        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<TicketResponse>>> GetAllTickets()
         {
-            var tickets = await _ticket.GetAllTickets();
-            var Response = tickets.Select(ToTicketResponse);
-            return Ok(Response);
+            var tickets = await _ticketRepo.GetAllTickets();
+            return Ok(tickets.Select(ToTicketResponse));
         }
 
-        [HttpGet("{id:int}")]
+        // ---------------------------
+        //   PATCH: ASSIGN AGENT
+        // ---------------------------
+        [HttpPatch("{id}/assign")]
+        public async Task<IActionResult> AssignAgent(int id, [FromBody] AssignAgentDto dto)
+        {
+            var ticket = await _ticketRepo.GetTicketById(id);
+            if (ticket == null) return NotFound("Ticket not found");
 
+            ticket.AssignedTo = dto.AgentId;
+            ticket.Status = Tstatus.Assigned;
+
+            var updated = await _ticketRepo.UpdateTicket(ticket);
+
+            return Ok(ToTicketResponse(updated));
+        }
+
+        // ---------------------------
+        //   PATCH: UPDATE STATUS ONLY
+        // ---------------------------
+        [HttpPatch("{id}/status")]
+        public async Task<IActionResult> UpdateTicketStatus(int id, [FromBody] UpdateStatusDto dto)
+        {
+            var ticket = await _ticketRepo.GetTicketById(id);
+            if (ticket == null)
+                return NotFound("Ticket not found");
+
+            
+            ticket.Status = dto.Status;
+
+            await _ticketRepo.UpdateTicket(ticket);
+
+            return Ok(ticket);
+        }
+
+
+        // ---------------------------
+        //   GET BY ID
+        // ---------------------------
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<TicketResponse>> GetTicketById(int id)
         {
-            var ticket = await _ticket.GetTicketById(id);
-                        if (ticket == null)
-            {
-                return NotFound();
-            }
+            var ticket = await _ticketRepo.GetTicketById(id);
+            if (ticket == null) return NotFound();
+
             return Ok(ToTicketResponse(ticket));
         }
 
-        [HttpGet("client/{CreatedBy:int}")]
-        public async Task<ActionResult<IEnumerable<TicketResponse>>> GetTicketsByClient(int createdby)
+        // ---------------------------
+        //   GET BY CLIENT
+        // ---------------------------
+        [HttpGet("client/{createdBy:int}")]
+        public async Task<ActionResult<IEnumerable<TicketResponse>>> GetTicketsByClient(int createdBy)
         {
-            var tickets = await _ticket.GetTicketsByClient(createdby);
-            var response = tickets.Select(ToTicketResponse);
-            return Ok(response);
-        }
-        [HttpGet("agent/{AssignedTo:int}")]
-        public async Task<ActionResult<IEnumerable<TicketResponse>>> GetTicketsByAgent(int assignedto)
-        {
-            var tickets = await _ticket.GetTicketsByAgent(assignedto);
-            var response = tickets.Select(ToTicketResponse);
-            return Ok(response);
+            var tickets = await _ticketRepo.GetTicketsByClient(createdBy);
+            return Ok(tickets.Select(ToTicketResponse));
         }
 
+        // ---------------------------
+        //   GET BY AGENT
+        // ---------------------------
+        [HttpGet("agent/{assignedTo:int}")]
+        public async Task<ActionResult<IEnumerable<TicketResponse>>> GetTicketsByAgent(int assignedTo)
+        {
+            var tickets = await _ticketRepo.GetTicketsByAgent(assignedTo);
+            return Ok(tickets.Select(ToTicketResponse));
+        }
 
+        // ---------------------------
+        //   CREATE TICKET
+        // ---------------------------
         [HttpPost("createticket")]
-        public async Task<ActionResult<TicketResponse>> CreateTicket([FromBody]TicketRequest ticket)
+        public async Task<ActionResult<TicketResponse>> CreateTicket([FromBody] TicketRequest req)
         {
             var newTicket = new Ticket
             {
-                Title = ticket.Title,
-                Description = ticket.Description,
-                Priority = ticket.Priority,
-                Status = ticket.Status,
-                CreatedBy = ticket.CreatedBy,
-                AssignedTo = ticket.AssignedTo
+                Title = req.Title,
+                Description = req.Description,
+                Priority = req.Priority,
+                Status = req.Status,
+                CreatedBy = req.CreatedBy,
+                AssignedTo = req.AssignedTo
             };
-            var createdTicket = await _ticket.AddTicket(newTicket);
-            var response = ToTicketResponse(createdTicket);
-            return CreatedAtAction(nameof(GetTicketById),new {id = response.TicketId }, response);  
+
+            var created = await _ticketRepo.AddTicket(newTicket);
+
+            return CreatedAtAction(nameof(GetTicketById),
+                new { id = created.TicketId },
+                ToTicketResponse(created));
         }
 
+        // ---------------------------
+        //   PUT: FULL UPDATE
+        // ---------------------------
         [HttpPut("{id:int}")]
-
-        public async Task<ActionResult<TicketResponse>> UpdateTicket(int id, [FromBody]TicketUpdate ticketUpdate)
+        public async Task<ActionResult<TicketResponse>> UpdateTicket(int id, [FromBody] TicketUpdate update)
         {
-            var existing = await _ticket.GetTicketById(id);
-            if ((existing==null))
-            {
-                return NotFound();
-            }
-            existing.Title = ticketUpdate.Title;
-            existing.Description = ticketUpdate.Description;
-            existing.Priority = ticketUpdate.Priority;
-            existing.Status = ticketUpdate.Status;
-            existing.AssignedTo = ticketUpdate.AssignedTo;
-            var updatedTicket = await _ticket.UpdateTicket(existing);
-            return Ok(ToTicketResponse(updatedTicket));
+            var ticket = await _ticketRepo.GetTicketById(id);
+            if (ticket == null) return NotFound();
 
+            ticket.Title = update.Title;
+            ticket.Description = update.Description;
+            ticket.Priority = update.Priority;
+            ticket.Status = update.Status;
+            ticket.AssignedTo = update.AssignedTo;
+
+            var updated = await _ticketRepo.UpdateTicket(ticket);
+
+            return Ok(ToTicketResponse(updated));
         }
+
+        // ---------------------------
+        //   DELETE
+        // ---------------------------
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult> DeleteTicket(int id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteTicket(int id)
         {
-                       var existing = await _ticket.GetTicketById(id);
-            if (existing == null)
-            {
-                return NotFound();
-            }
-            await _ticket.DeleteTicket(id);
+            var ticket = await _ticketRepo.GetTicketById(id);
+            if (ticket == null) return NotFound();
+
+            await _ticketRepo.DeleteTicket(id);
             return NoContent();
         }
-
-
     }
 }

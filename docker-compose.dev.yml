@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: ./TicketApp       # <-- backend folder
+      dockerfile: Dockerfile     # optional, defaults to Dockerfile
+    container_name: ticketapp_api
+    ports:
+      - "5000:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Server=host.docker.internal,1433;Database=TicketApp_DB;User Id=ticketuser;Password=StrongPassword123!;TrustServerCertificate=True;"
+
+    depends_on: []
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./TicketApp-frontend    # <-- frontend folder
+      dockerfile: Dockerfile
+    container_name: ticketapp_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+    restart: unless-stopped

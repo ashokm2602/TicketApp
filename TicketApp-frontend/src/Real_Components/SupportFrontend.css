@@ -1,0 +1,34 @@
+.support-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* FULL-WIDTH HEADER */
+.support-header {
+  width: 100%;
+  background: white;
+  border-bottom: 1px solid #ddd;
+  padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* SIDEBAR + CONTENT ROW */
+.support-layout {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* MAIN CONTENT (RIGHT SIDE) */
+.support-content {
+  flex: 1;
+  padding: 25px;
+  overflow-y: auto;
+  background: #f3f5fa;
+}

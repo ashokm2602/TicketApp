@@ -1,0 +1,249 @@
+/* TicketList.css - Clean and Modern Styling */
+
+/* Root Variables for Consistency */
+:root {
+  --primary-color: #3b82f6;
+  --primary-hover: #2563eb;
+  --secondary-color: #64748b;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --dark-color: #1f2937;
+  --light-color: #f8fafc;
+  --border-color: #e2e8f0;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --border-radius: 10px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base Reset and Font */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.ticket-list {
+  max-width: 1100px;
+  margin: 2rem auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--dark-color);
+  padding: 0 1rem;
+}
+
+/* Header */
+.ticket-list h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+  border-bottom: 3px solid var(--primary-color);
+  padding-bottom: 0.5rem;
+}
+
+/* Status/Error/Empty States */
+.ticket-list-status {
+  text-align: center;
+  color: var(--secondary-color);
+  font-size: 1rem;
+  padding: 2rem 0;
+}
+
+/* Ticket Cards Grid */
+.ticket-list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Each Ticket Card */
+.ticket-card {
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: var(--transition);
+  border: 1px solid var(--border-color);
+}
+
+.ticket-card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-color);
+  transform: translateY(-3px);
+}
+
+/* Ticket Title */
+.ticket-card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--dark-color);
+}
+
+/* Description */
+.ticket-card p {
+  flex-grow: 1;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+  color: #4b5563; /* cool grey */
+}
+
+/* Metadata Container */
+.ticket-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: var(--secondary-color);
+  font-weight: 500;
+}
+
+.ticket-meta span:first-child {
+  font-weight: 600;
+  color: var(--dark-color);
+}
+
+/* Status Pill */
+.ticket-status-pill {
+  display: inline-block;
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  font-weight: 600;
+  color: white;
+  min-width: 70px;
+  text-align: center;
+}
+
+.ticket-status-open {
+  background-color: var(--warning-color);
+}
+
+.ticket-status-closed {
+  background-color: var(--success-color);
+}
+
+/* Priority Pill */
+.ticket-priority-pill {
+  display: inline-block;
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  font-weight: 600;
+  color: white;
+  min-width: 70px;
+  text-align: center;
+}
+
+.ticket-priority-low {
+  background-color: var(--success-color);
+}
+
+.ticket-priority-medium {
+  background-color: var(--warning-color);
+}
+
+.ticket-priority-high {
+  background-color: var(--danger-color);
+}
+
+/* Comment Toggle Button */
+.comment-toggle-btn {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  align-self: flex-start;
+  margin-bottom: 1rem;
+  user-select: none;
+}
+
+.comment-toggle-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.comment-toggle-btn:focus {
+  outline: 2px solid var(--primary-hover);
+  outline-offset: 2px;
+}
+
+/* Comments Section */
+.comments-section {
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  animation: fadeIn 0.35s ease-in forwards;
+}
+
+/* Comments Header */
+.comments-section h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--dark-color);
+  margin-bottom: 0.8rem;
+}
+
+/* Individual Comment */
+.comment-item {
+  background: white;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.75rem;
+  box-shadow: var(--shadow-sm);
+  border-left: 4px solid var(--primary-color);
+}
+
+.comment-item p {
+  font-size: 0.9rem;
+  color: #374151;
+  margin-bottom: 0.3rem;
+  line-height: 1.4;
+}
+
+.comment-date {
+  font-size: 0.75rem;
+  color: var(--secondary-color);
+  font-style: italic;
+}
+
+/* Fade-in Animation for Comments */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .ticket-list {
+    margin: 1rem;
+  }
+  
+  .ticket-list-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .comment-toggle-btn {
+    width: 100%;
+    text-align: center;
+  }
+}

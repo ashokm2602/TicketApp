@@ -1,0 +1,94 @@
+/* TicketComments.css - Clean Modern Comments Section */
+
+/* Root Variables for Consistency */
+:root {
+  --primary-color: #3b82f6;
+  --primary-hover: #2563eb;
+  --secondary-color: #64748b;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --dark-color: #1f2937;
+  --light-color: #f8fafc;
+  --border-color: #e2e8f0;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --border-radius: 12px;
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.comments-box {
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
+  padding: 1.75rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.comments-box h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--dark-color);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+/* Individual Comment Items */
+.comment-item {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--primary-color);
+  transition: var(--transition);
+  position: relative;
+}
+
+.comment-item:hover {
+  background: #f1f5f9;
+  box-shadow: var(--shadow-sm);
+  transform: translateX(4px);
+}
+
+.comment-item p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--dark-color);
+  margin-bottom: 0.75rem;
+}
+
+.comment-item small {
+  font-size: 0.8rem;
+  color: var(--secondary-color);
+  font-weight: 500;
+  display: block;
+}
+
+/* Empty State */
+.comments-box p:not(.comment-item p) {
+  text-align: center;
+  color: var(--secondary-color);
+  font-style: italic;
+  padding: 2rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 2px dashed var(--border-color);
+}
+
+/* Loading/Error States */
+.comments-box p:first-child {
+  text-align: center;
+  color: var(--secondary-color);
+  padding: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .comments-box {
+    padding: 1.25rem;
+    margin: 0 1rem;
+  }
+}

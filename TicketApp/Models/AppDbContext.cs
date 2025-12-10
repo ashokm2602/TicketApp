@@ -2,7 +2,7 @@
 
 namespace TicketApp.Models
 {
-    public class AppDbContext:DbContext
+    public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public DbSet<User> Users { get; set; }
@@ -43,7 +43,7 @@ namespace TicketApp.Models
                 entity.HasKey(e => e.CommentId);
                 entity.Property(e => e.Message).IsRequired();
                 entity.Property(e => e.TicketId).IsRequired();
-                entity.Property(e => e.UserId).IsRequired();    
+                entity.Property(e => e.UserId).IsRequired();
 
 
             });

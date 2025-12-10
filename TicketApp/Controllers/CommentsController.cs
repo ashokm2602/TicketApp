@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TicketApp.Models;
 using TicketApp.Repositories;
 using static TicketApp.DTOs.CommentDTO;
@@ -17,7 +16,7 @@ namespace TicketApp.Controllers
         }
         public static CommentResponse ToCommentResponse(Comment c)
         {
-            CommentResponse res = new CommentResponse { CommentId = c.CommentId, TicketId = c.TicketId, Message = c.Message, CreatedDate = c.CreatedDate };
+            CommentResponse res = new CommentResponse { CommentId = c.CommentId, TicketId = c.TicketId, Message = c.Message, CreatedDate = c.CreatedDate, UserId = c.UserId };
             return res;
         }
 
@@ -41,17 +40,34 @@ namespace TicketApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CommentResponse>> AddComment(CommentRequest commentRequest)
+        public async Task<ActionResult<CommentResponse>> AddComment([FromBody] CommentRequest commentRequest)
         {
+            if (commentRequest == null)
+                return BadRequest("Invalid request body.");
+
+            if (commentRequest.TicketId <= 0)
+                return BadRequest("TicketId is required.");
+
+            if (string.IsNullOrWhiteSpace(commentRequest.Message))
+                return BadRequest("Message cannot be empty.");
+
             var newComment = new Comment
             {
                 TicketId = commentRequest.TicketId,
                 Message = commentRequest.Message,
-                UserId = commentRequest.UserId
+                UserId = commentRequest.UserId,
+                CreatedDate = DateTime.Now
             };
+
             var addedComment = await _commentRepository.AddComment(newComment);
-            return CreatedAtAction(nameof(GetCommentById), new { id = addedComment.CommentId }, ToCommentResponse(addedComment));
+
+            return CreatedAtAction(
+                nameof(GetCommentById),
+                new { id = addedComment.CommentId },
+                ToCommentResponse(addedComment)
+            );
         }
+
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteComment(int id)
         {

@@ -6,7 +6,7 @@ namespace TicketApp.Models
     {
         [Key]
         public int UserId { get; set; }
-        [Required,StringLength(50)]
+        [Required, StringLength(50)]
         public string Name { get; set; }
         [EmailAddress]
         public string Email { get; set; }
@@ -21,7 +21,7 @@ namespace TicketApp.Models
     }
     public enum UserRole
     {
-        Admin=1,SupportAgent=2,Customer=3
+        Admin = 1, SupportAgent = 2, Customer = 3
     }
 }
 

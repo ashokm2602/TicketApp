@@ -1,0 +1,17 @@
+* {
+  outline: 1px solid red !important;
+}
+
+html, body, #root {
+  width: 100vw !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden !important;
+}
+
+.support-frontend-container,
+.admin-dashboard-container,
+.admin-dashboard-content,
+.sidebar {
+  width: 100% !important;
+}

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TicketApp.Models;
 using TicketApp.Repositories;
@@ -24,7 +23,7 @@ namespace TicketApp.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+
         public async Task<ActionResult<IEnumerable<UserResponse>>> GetAllUsers()
         {
             var list = await _userRepository.GetAllUsers();
@@ -59,7 +58,7 @@ namespace TicketApp.Controllers
         [HttpPost]
         public async Task<ActionResult<UserResponse>> AddUser(UserRequest user)
         {
-            var newuser = new User { Name = user.Name, Email = user.Email, Role = user.Role,PasswordHash = user.PasswordHash };
+            var newuser = new User { Name = user.Name, Email = user.Email, Role = user.Role, PasswordHash = user.PasswordHash };
             var addedUser = await _userRepository.AddUser(newuser);
             var response = ToUserResponse(addedUser);
             return CreatedAtAction(nameof(GetUserById), new { id = response.UserId }, response);
@@ -67,7 +66,7 @@ namespace TicketApp.Controllers
 
         [HttpPut("UpdateUser{id:int}")]
 
-        public async Task<ActionResult<UserResponse>> UpdateUser(int id,UserUpdate user)
+        public async Task<ActionResult<UserResponse>> UpdateUser(int id, UserUpdate user)
         {
             var existingUser = await _userRepository.GetUserById(id);
             if (existingUser == null)

@@ -2,7 +2,7 @@
 using TicketApp.Models;
 namespace TicketApp.Repositories
 {
-    public class CommentRepository:ICommentRepository
+    public class CommentRepository : ICommentRepository
     {
         private readonly AppDbContext _context;
         public CommentRepository(AppDbContext context)
@@ -13,16 +13,16 @@ namespace TicketApp.Repositories
         public async Task<Comment> AddComment(Comment comment)
         {
             await _context.Comments.AddAsync(comment);
-            await  _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return comment;
 
         }
-        
+
 
         public async Task DeleteComment(int commentId)
         {
             var existing = await _context.Comments.FindAsync(commentId);
-            if(existing == null)
+            if (existing == null)
             {
                 throw new Exception("Comment not found");
             }
@@ -39,7 +39,7 @@ namespace TicketApp.Repositories
         public async Task<Comment?> GetCommentById(int commentId) => await _context.Comments.FindAsync(commentId);
 
 
-        public async Task<bool> exists(int commentId) => await _context.Comments.AnyAsync(c => c.CommentId==commentId);
-       
+        public async Task<bool> exists(int commentId) => await _context.Comments.AnyAsync(c => c.CommentId == commentId);
+
     }
 }
