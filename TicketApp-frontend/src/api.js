@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "http://192.168.29.252:5000/api",
 });
 
 // Attach access token to requests
@@ -24,7 +24,7 @@ api.interceptors.response.use(
 
       try {
         const res = await axios.post(
-          "http://localhost:5000/api/Authentication/refresh",
+          "http://192.168.29.252:5000/api/Authentication/refresh",
           {
             accessToken,
             refreshToken,
