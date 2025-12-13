@@ -98,11 +98,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
-var hash = BCrypt.Net.BCrypt.HashPassword("Yuva@123");
-Console.WriteLine(hash);
 
-var hash2 = BCrypt.Net.BCrypt.HashPassword("Bharathi@123");
-Console.WriteLine(hash2);
 
 app.UseCors("AllowAll");
 
@@ -119,4 +115,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+app.Run("http://0.0.0.0:5000");

@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile     # optional, defaults to Dockerfile
     container_name: ticketapp_api
     ports:
-      - "5000:80"
+      - "5000:5000"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__DefaultConnection: "Server=host.docker.internal,1433;Database=TicketApp_DB;User Id=ticketuser;Password=StrongPassword123!;TrustServerCertificate=True;"
