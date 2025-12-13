@@ -23,8 +23,8 @@ namespace TicketApp.Models
 
     public enum Tstatus
     {
-        New = 1, Assigned = 2, InProgress = 3, Resolved = 3, Closed = 4
+        New, Assigned, InProgress, Resolved, Closed
     }
-    public enum Tpriority { Low = 1, Medium = 2, High = 3, Critical = 4 }
+    public enum Tpriority { Low , Medium, High, Critical }
 
 }

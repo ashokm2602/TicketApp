@@ -5,8 +5,19 @@
 import React from "react";
 import TicketCard from "./TicketCard";
 import CreateTicketForm from "./CreateTicketForm";
+import { fetchAllTickets } from "../Features/TicketSlice";
+import { fetchUsers } from "../Features/UserSlice";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 
-export default function CustomerDashboard({ customer, tickets = [], onCreate, onComment }) {
+export default function CustomerDashboard({ customer, tickets = [], users =[],onCreate, onComment }) {
+  const dispatch = useDispatch();
+  useEffect(() => {
+  dispatch(fetchUsers());
+  dispatch(fetchAllTickets());
+}, [dispatch]);
+
+
   return (
     <main className="flex-1 min-h-screen bg-gray-50 p-8">
       <div className="max-w-full">
@@ -35,7 +46,7 @@ export default function CustomerDashboard({ customer, tickets = [], onCreate, on
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
             {tickets.map((t) => (
               <div key={t.ticketId} className="flex flex-col gap-4">
-                <TicketCard ticket={t} />
+                <TicketCard ticket={t} users = {users} />
 
                 {/* Comment Box */}
                 <textarea

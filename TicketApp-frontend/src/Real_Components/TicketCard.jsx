@@ -2,11 +2,25 @@ import React from "react";
 
 export default function TicketCard({ ticket, users }) {
   // Resolve CreatedBy name
-  const createdByUser = users?.find(u => u.userId === ticket.createdBy);
-  const createdByName = createdByUser ? createdByUser.name : "Unknown User";
+  const createdByUser = users?.find(
+  u => Number(u.userId) === Number(ticket.createdBy)
+);
+
+const assignedUser = users?.find(
+  u => Number(u.userId) === Number(ticket.assignedTo)
+);
+
+  const createdByName =
+  users?.length === 0
+    ? "Loading..."
+    : createdByUser?.name ?? "Unknown User";
+
+    console.log(createdByName);
+    console.log(createdByUser);
+
+
 
   // Resolve AssignedTo name
-  const assignedUser = users?.find(u => u.userId === ticket.assignedTo);
   const assignedToName = assignedUser ? assignedUser.name : "Not Assigned";
 
   // Generate initial avatar
@@ -27,6 +41,11 @@ export default function TicketCard({ ticket, users }) {
     Resolved: "bg-green-600",
     Closed: "bg-gray-600",
   };
+  const formattedDate = ticket.createdDate
+  ? new Date(ticket.createdDate).toLocaleString()
+  : "N/A";
+
+  console.log(`Created Date :${formattedDate}`);
 
   return (
     <div className="border rounded-xl p-5 bg-white shadow-sm hover:shadow-lg transition-transform hover:-translate-y-1 cursor-pointer">
@@ -80,7 +99,7 @@ export default function TicketCard({ ticket, users }) {
 
       {/* CREATED DATE */}
       <div className="mt-4 text-xs text-gray-500">
-        Created on: {ticket.createdAt || "N/A"}
+        Created on: {formattedDate || "N/A"}
       </div>
     </div>
   );

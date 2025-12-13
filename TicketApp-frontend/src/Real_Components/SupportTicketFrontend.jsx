@@ -59,16 +59,18 @@ export default function SupportTicketFrontend({ forcedRole }) {
   // ------------------ ACTION HANDLERS ------------------
 
   const handleCreateTicket = (ticket) => {
-    dispatch(createTicket(ticket));
+     dispatch(createTicket(ticket));
+    dispatch(fetchTicketsByClient(userId));
+
   };
 
   const handleAssignTicket = (ticketId, agentId) => {
     dispatch(patchAssignAgent({ ticketId, agentId }));
   };
   const status = "Resolved";
-  const handleUpdateStatus = (ticketId, status) => {
-    dispatch(patchUpdateStatus({ ticketId, status}));
-  };
+  const handleUpdateStatus = (ticketId, newStatus) => {
+  dispatch(patchUpdateStatus({ ticketId, status: newStatus }));
+};
 
   const handleAddComment = (ticketId, text) => {
     dispatch(
@@ -117,15 +119,15 @@ export default function SupportTicketFrontend({ forcedRole }) {
           )}
 
           {/* SUPPORT AGENT */}
-          {(role === "SupportAgent"||"Agent") && (
-            <AgentDashboard
-              agent={currentUser}
-              tickets={agentTickets}
-              users={users}
-              onResolve={(id) => handleUpdateStatus(id, status)}
-              onComment={handleAddComment}
-            />
-          )}
+         {(role === "SupportAgent" || role === "Agent") && (
+  <AgentDashboard
+    agent={currentUser}
+    tickets={agentTickets}
+    users={users}
+    onResolve={(id) => handleUpdateStatus(id, "Resolved")}
+    onComment={handleAddComment}
+  />
+)}
 
           {/* CUSTOMER */}
           {role === "Customer" && (

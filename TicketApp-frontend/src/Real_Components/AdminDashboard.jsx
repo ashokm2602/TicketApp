@@ -3,10 +3,21 @@
 
 import React from "react";
 import TicketCard from "./TicketCard";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchUsers } from "../Features/UserSlice";
+import { fetchAllTickets } from "../Features/TicketSlice";
 
 export default function AdminDashboard({ agents = [], tickets = [], users = [], onAssign, onClose }) {
   
   // Unassigned = assignedTo null OR 0 AND not closed
+
+   const dispatch = useDispatch();
+    useEffect(() => {
+    dispatch(fetchUsers());
+    dispatch(fetchAllTickets());
+  }, [dispatch]);
+
   const unassigned = tickets.filter(
     (t) => (!t.assignedTo || t.assignedTo === 0) && t.status !== "Closed"
   );
@@ -48,7 +59,7 @@ export default function AdminDashboard({ agents = [], tickets = [], users = [], 
                 {tickets
                   .filter((t) => t.assignedTo === a.userId)
                   .map((t) => (
-                    <TicketCard key={t.ticketId} ticket={t} users={users} />
+                    <TicketCard key={t.ticketId} ticket={t} users={users}  />
                   ))}
               </div>
             </div>

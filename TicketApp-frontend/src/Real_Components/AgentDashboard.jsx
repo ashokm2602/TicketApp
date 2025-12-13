@@ -1,5 +1,6 @@
 import React from "react";
 import TicketCard from "./TicketCard";
+import { TicketStatus } from "../Services/TicketStatus";
 
 export default function AgentDashboard({
   agent,
@@ -34,7 +35,7 @@ export default function AgentDashboard({
               {/* FIXED BUTTON */}
               {t.status !== "Resolved" && (
                 <button
-                  onClick={() => onResolve(t.ticketId)}   // <-- ONLY pass ID
+                  onClick={() => onResolve(t.ticketId,TicketStatus.RESOLVED)}   // <-- ONLY pass ID
                   className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md text-sm"
                 >
                   Mark as Resolved

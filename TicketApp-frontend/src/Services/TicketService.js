@@ -10,16 +10,18 @@ export const getAllTickets = async () => {
 };
 
 export const assignAgent = async (ticketId, agentId) => {
-  const response = await api.patch(`${TICKETS_URL}/agent/${ticketId}`, {
+  const response = await api.patch(`${TICKETS_URL}/${ticketId}/assign`, {
     agentId,
   });
   return response.data;
 };
 
+
 export const updateStatus = async (ticketId, status) => {
   const response = await api.patch(`${TICKETS_URL}/${ticketId}/status`, {
-    status,
+    status
   });
+  console.log(status);
     console.log("📥 PATCH response:", response.data);
 
   return response.data;

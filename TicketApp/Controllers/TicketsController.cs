@@ -11,10 +11,13 @@ namespace TicketApp.Controllers
     public class TicketsController : ControllerBase
     {
         private readonly ITicketRepository _ticketRepo;
+        private readonly AppDbContext _context;
 
-        public TicketsController(ITicketRepository ticketRepo)
+        public TicketsController(ITicketRepository ticketRepo,AppDbContext context)
         {
             _ticketRepo = ticketRepo;
+            _context = context;
+
         }
 
         // ---------------------------
@@ -30,7 +33,8 @@ namespace TicketApp.Controllers
                 Priority = t.Priority.ToString(),
                 Status = t.Status.ToString(),
                 CreatedBy = t.CreatedBy,
-                AssignedTo = t.AssignedTo
+                AssignedTo = t.AssignedTo,
+                CreatedDate = t.CreatedDate
             };
         }
 
@@ -67,14 +71,18 @@ namespace TicketApp.Controllers
         [HttpPatch("{id}/status")]
         public async Task<IActionResult> UpdateTicketStatus(int id, [FromBody] UpdateStatusDto dto)
         {
+            Console.WriteLine($"PATCH status called → id={id}, status={dto.Status}");
             var ticket = await _ticketRepo.GetTicketById(id);
             if (ticket == null)
                 return NotFound("Ticket not found");
 
             
             ticket.Status = dto.Status;
+            Console.WriteLine($"Saving status = {ticket.Status}");
 
-            await _ticketRepo.UpdateTicket(ticket);
+            await _context.SaveChangesAsync();
+
+            
 
             return Ok(ticket);
         }

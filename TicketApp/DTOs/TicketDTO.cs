@@ -17,6 +17,7 @@ namespace TicketApp.DTOs
 
             public int CreatedBy { get; set; }
             public int? AssignedTo { get; set; }
+            public DateTime CreatedDate { get; set; }
 
         }
 

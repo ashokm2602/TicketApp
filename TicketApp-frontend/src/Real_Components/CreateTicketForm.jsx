@@ -7,6 +7,7 @@ export default function CreateTicketForm({ onCreate }) {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [touched, setTouched] = useState({ title: false, desc: false });
+  const userId = localStorage.getItem("userId");
 
   const isTitleValid = title.trim().length > 0;
   const isDescValid = desc.trim().length > 0;
@@ -14,7 +15,7 @@ export default function CreateTicketForm({ onCreate }) {
 
   const handleSubmit = () => {
     if (!formValid) return;
-    onCreate({ title, description: desc });
+    onCreate({ title, description: desc,createdBy:userId });
     setTitle("");
     setDesc("");
     setTouched({ title: false, desc: false });

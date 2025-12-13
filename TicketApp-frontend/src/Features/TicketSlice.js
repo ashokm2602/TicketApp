@@ -18,6 +18,7 @@ const normalizeTicket = (t) => {
     // Ensure numeric IDs (so `===` comparisons work)
     createdBy: Number(t.createdBy ?? t.CreatedBy ?? 0),
     assignedTo: Number(t.assignedTo ?? t.AssignedTo ?? 0),
+    createdDate: t.createdDate
   };
 };
 
@@ -149,6 +150,7 @@ const ticketsSlice = createSlice({
         t.ticketId === updated.ticketId ? updated : t
       );
     });
+    
 
     // FETCH BY CLIENT
     builder.addCase(fetchTicketsByClient.pending, setPending);
@@ -185,6 +187,7 @@ const ticketsSlice = createSlice({
       state.tickets.unshift(created);
       state.clientTickets.unshift(created);
     });
+    
     builder.addCase(createTicket.rejected, setRejected);
 
     // UPDATE (full update)
